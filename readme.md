@@ -12,10 +12,15 @@
 
 ### VPN Configuration:
 
-     # download and save the following files in /docker/seedbox/openvpn/config
+     # download and save the following files in /docker/openvpn/config
 
      * ca.crt
      * ta.key
      * user.crt
      * user.key
      * server.conf
+     
+     # set the following ENV variables
+     
+     * VPN_GATEWAY
+     * LAN_GATEWAY
