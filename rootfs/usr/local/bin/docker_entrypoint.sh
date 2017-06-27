@@ -85,4 +85,4 @@ iptables -A INPUT  -i lo -j ACCEPT
 ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 
 # Start openvpn in console mode
-exec /usr/sbin/openvpn --cd /etc/openvpn --config /etc/openvpn/server.conf
+exec /usr/sbin/openvpn --auth-nocache --cd /etc/openvpn --config /etc/openvpn/server.conf
