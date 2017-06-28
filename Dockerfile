@@ -8,7 +8,7 @@ ARG VCS_REF
 LABEL org.label-schema.build-date=${BUILD_DATE} \
       org.label-schema.description="secure VPN gateway" \
       #org.label-schema.docker.cmd="" \
-      org.label-schema.name="openVPN" \
+      org.label-schema.name="OpenVPN" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.url="https://openvpn.net/" \
       org.label-schema.vcs-ref=${VCS_REF} \
