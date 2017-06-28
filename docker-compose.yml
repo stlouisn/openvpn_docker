@@ -1,10 +1,10 @@
-version: '3.2'
+version: '2.2'
 
 networks:
 
   macvlan:
     external:
-      name: vlan
+      name: vpn_net
 
 services:
 
@@ -12,29 +12,21 @@ services:
     image: stlouisn/openvpn
     container_name: openvpn
     hostname: openvpn
-    labels:
-      docker.openvpn.description: "secure vpn gateway"
-      docker.openvpn.url: "https://openvpn.net/"
     environment:
-      - TZ=Someplace/Somewhere
-      - VPN_GATEWAY=123.123.123.123
-      - LAN_GATEWAY=123.123.123.123
+      - TZ=location/location
+      - VPN_GATEWAY=x.x.x.x
+      - LAN_GATEWAY=192.168.x.x
     restart: always
     volumes:
       - ./openvpn/config:/etc/openvpn:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
       macvlan:
-        ipv4_address: 123.123.123.123
-    dns: 123.123.123.123
+        ipv4_address: 192.168.x.x
+    dns: x.x.x.x
     healthcheck:
       test: ping -c 1 -W 3 google.com
       interval: 60s
