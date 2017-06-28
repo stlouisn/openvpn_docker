@@ -27,4 +27,4 @@
        
 ### Links
 
-[openvpn.net](https://openvpn.net/)
+https://openvpn.net/
