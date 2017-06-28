@@ -19,13 +19,15 @@
 
 ### VPN Configuration Files
 
-     cp \
-       ca.crt \
-       ta.key \
-       user.crt \
-       user.key \
-       server.conf \
-       /openvpn/config/.
+     copy
+     
+       ca.crt
+       ta.key
+       user.crt
+       user.key
+       server.conf
+       
+     to openvpn/config/
 
 ### Links
 
