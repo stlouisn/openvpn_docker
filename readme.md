@@ -17,18 +17,14 @@
      mknod /dev/net/tun c 10 200
      chmod 666 /dev/net/tun
 
-### VPN Configuration Files
+### Required VPN Files
 
-     copy
-     
-       ca.crt
-       ta.key
-       user.crt
-       user.key
-       server.conf
+     - ca.crt
+     - ta.key
+     - user.crt
+     - user.key
+     - server.conf
        
-     to openvpn/config/
-
 ### Links
 
 [openvpn.net](https://openvpn.net/)
