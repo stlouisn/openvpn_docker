@@ -17,15 +17,15 @@
      mknod /dev/net/tun c 10 200
      chmod 666 /dev/net/tun
 
-### VPN Configuration:
+### VPN Configuration Files
 
-     # download and save the following files in openvpn/config/
-
-     - ca.crt
-     - ta.key
-     - user.crt
-     - user.key
-     - server.conf
+     cp \
+       ca.crt \
+       ta.key \
+       user.crt \
+       user.key \
+       server.conf \
+       /openvpn/config/.
 
 ### Links
 
