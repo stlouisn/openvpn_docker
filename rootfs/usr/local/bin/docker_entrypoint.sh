@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Set timezone
 TZ=${TZ:-UTC}
@@ -81,7 +81,7 @@ iptables -A INPUT  -i eth0 -s 192.168.0.0/16 -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A INPUT  -i lo -j ACCEPT
 
-# Route PRIVATE NETWORK traffic to ETH0
+# Route LOCAL NETWORK traffic to ETH0
 ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 
 # Start openvpn in console mode
