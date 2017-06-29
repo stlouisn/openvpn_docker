@@ -34,11 +34,14 @@ RUN \
         ca-certificates \
         openssl && \
 
-    # Install SSL
+    # Install openvpn
     apt install -y --no-install-recommends \
         iptables \
         openvpn && \
-        #ip6tables \
+
+    # Install ping
+    apt install -y --no-install-recommends \
+        iputils-ping && \
 
     # Set docker_entrypoint as executable
     chmod 0744 /usr/local/bin/docker_entrypoint.sh && \
