@@ -15,7 +15,7 @@ services:
     environment:
       - TZ=location/location
       - VPN_GATEWAY=x.x.x.x
-      - LAN_GATEWAY=192.168.x.x
+      - LAN_GATEWAY=x.x.x.x
     restart: always
     volumes:
       - ./openvpn/config:/etc/openvpn:rw
@@ -25,7 +25,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       macvlan:
-        ipv4_address: 192.168.x.x
+        ipv4_address: x.x.x.x
     dns: x.x.x.x
     healthcheck:
       test: ping -c 1 -W 3 google.com
