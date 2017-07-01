@@ -6,17 +6,17 @@ before_install:
   - sudo apt-get update
   - sudo apt-get upgrade -y
   - docker version
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "${TRAVIS_BRANCH}" == "master" ]; then
       export DOCKER_TAG="latest";
     else
-      export DOCKER_TAG=$TRAVIS_BRANCH;
+      export DOCKER_TAG=${TRAVIS_BRANCH};
     fi
   - export UBUNTU_ROLLING=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
   - export OPENVPN_VERSION=`curl -sS https://packages.ubuntu.com/${UBUNTU_ROLLING}/amd64/openvpn/download | grep "Download Page for" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
 
 install:
-  - docker build --build-arg OPENVPN_VERSION=$OPENVPN_VERSION --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` -t $DOCKER_USERNAME/$DOCKER_IMAGE:$DOCKER_TAG .
+  - docker build --build-arg OPENVPN_VERSION=${OPENVPN_VERSION} --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` -t ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
 
 after_success:
-  - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  - docker push $DOCKER_USERNAME/$DOCKER_IMAGE:$DOCKER_TAG
+  - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+  - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
