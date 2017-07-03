@@ -7,54 +7,56 @@ echo $TZ > /etc/timezone
 
 # Make sure volumes are mounted correctly
 if [ ! -d /etc/openvpn ]; then
-  printf "\nERROR: volume /etc/openvpn not mounted.\n" >&2
-  exit 1
+    printf "\nERROR: volume /etc/openvpn not mounted.\n" >&2
+    exit 1
 fi
 
 # Check for configuration file: ca.crt
 if [ ! -e /etc/openvpn/ca.crt ]; then
-  printf "\nERROR: configuration file \"ca.crt\" is missing.\n" >&2
-  exit 1
+    printf "\nERROR: configuration file \"ca.crt\" is missing.\n" >&2
+    exit 1
 fi
 
 # Check for configuration file: ta.key
 if [ ! -e /etc/openvpn/ta.key ]; then
-  printf "\nERROR: configuration file \"ta.key\" is missing.\n" >&2
-  exit 1
+    printf "\nERROR: configuration file \"ta.key\" is missing.\n" >&2
+    exit 1
 fi
 
 # Check for configuration file: user.crt
 if [ ! -e /etc/openvpn/user.crt ]; then
-  printf "\nERROR: configuration file \"user.crt\" is missing.\n" >&2
-  exit 1
+    printf "\nERROR: configuration file \"user.crt\" is missing.\n" >&2
+    exit 1
 fi
 
 # Check for configuration file: user.key
 if [ ! -e /etc/openvpn/user.key ]; then
-  printf "\nERROR: configuration file \"user.key\" is missing.\n" >&2
-  exit 1
+    printf "\nERROR: configuration file \"user.key\" is missing.\n" >&2
+    exit 1
 fi
 
 # Check for configuration file: server.conf
 if [ ! -e /etc/openvpn/server.conf ]; then
-  printf "\nERROR: configuration file \"server.conf\" is missing.\n" >&2
-  exit 1
+    printf "\nERROR: configuration file \"server.conf\" is missing.\n" >&2
+    exit 1
 fi
 
-# Fix permissions and secure VPN keys
+# Fix user and group ownerships
 chown -R root:root /etc/openvpn
+
+# Secure VPN keys
 find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
 
 # Verify required environment variable - VPN_GATEWAY
 if [ -z "$VPN_GATEWAY" ]; then
-  echo $'\nERROR: Environment VPN_GATEWAY needs to be set!' >&2
-  exit 1
+    echo $'\nERROR: Environment VPN_GATEWAY needs to be set!' >&2
+    exit 1
 fi
 
 # Verify required environment variable - LAN_GATEWAY
 if [ -z "$LAN_GATEWAY" ]; then
-  echo $'\nERROR: Environment LAN_GATEWAY needs to be set!' >&2
-  exit 1
+    echo $'\nERROR: Environment LAN_GATEWAY needs to be set!' >&2
+    exit 1
 fi
 
 # Flush all rules
@@ -85,4 +87,8 @@ iptables -A INPUT  -i lo -j ACCEPT
 ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 
 # Start openvpn in console mode
-exec /usr/sbin/openvpn --auth-nocache --cd /etc/openvpn --config /etc/openvpn/server.conf
+exec \
+    /usr/sbin/openvpn \
+        --auth-nocache \
+        --cd /etc/openvpn \
+        --config /etc/openvpn/server.conf
