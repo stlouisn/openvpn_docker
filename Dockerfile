@@ -56,6 +56,8 @@ RUN \
         /tmp/* \
         /var/lib/apt/lists/*
 
+ENV LC_ALL=C.UTF-8
+
 VOLUME /etc/openvpn
 
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
