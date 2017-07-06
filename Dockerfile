@@ -38,9 +38,10 @@ RUN \
         iptables \
         openvpn && \
 
-    # Install ping
+    # Install ping and traceroute
     apt install -y --no-install-recommends \
-        iputils-ping && \
+        iputils-ping \
+        iputils-tracepath && \
 
     # Set docker_entrypoint as executable
     chmod 0744 /usr/local/bin/docker_entrypoint.sh && \
