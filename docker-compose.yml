@@ -4,7 +4,7 @@ networks:
 
   macvlan:
     external:
-      name: vpn_net
+      name: isolated_network
 
 services:
 
@@ -13,9 +13,8 @@ services:
     container_name: openvpn
     hostname: openvpn
     environment:
-      - TZ=location/location
-      - VPN_GATEWAY=x.x.x.x
-      - LAN_GATEWAY=x.x.x.x
+      - VPN_GATEWAY=10.0.0.0 # VPN Gateway IP
+      - LAN_GATEWAY=192.0.0.0 # Local Router IP
     restart: always
     volumes:
       - ./openvpn/config:/etc/openvpn:rw
@@ -25,10 +24,40 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       macvlan:
-        ipv4_address: x.x.x.x
-    dns: x.x.x.x
+        ipv4_address: 192.168.0.0 # Local Container IP
+    dns: 10.0.0.0 # VPN Name Server IP
     healthcheck:
       test: ping -c 1 -W 3 google.com
       interval: 60s
       timeout: 10s
       retries: 5
+
+######### EVERYTHING BELOW IS OPTIONAL #########
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    restart: always
+    volumes:
+      - ./transmission/config:/config:rw
+      - ./transmission/downloads:/downloads:rw
+      - ./transmission/watched-dir:/watch:rw
+    network_mode: service:openvpn
+    healthcheck:
+      test: curl --fail http://localhost:9091 || exit 1
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      openvpn:
+        condition: service_healthy
+
+  htpcmanager:
+    image: linuxserver/htpcmanager
+    container_name: htpcmanager
+    restart: always
+    volumes:
+      - ./htpcmanager/config:/config:rw
+    network_mode: service:openvpn
+    depends_on:
+      - transmission
