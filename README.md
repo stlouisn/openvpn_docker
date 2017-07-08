@@ -13,13 +13,24 @@
      mknod /dev/net/tun c 10 200
      chmod 666 /dev/net/tun
 
-### Required VPN Files
+### Create Docker Network
 
-     - ca.crt
-     - ta.key
-     - user.crt
-     - user.key
-     - server.conf
+     docker network create \
+       --driver macvlan \
+       --subnet=192.168.100.0/24 \
+       --gateway=192.168.100.1 \
+       --opt parent=enp4s0.100 \
+     isolated_network
+
+*adjust (subnet, gateway, and parent) as required*
+
+### Install VPN Configuration Files
+
+     cp ca.crt openvpn/config/.
+     cp ta.key openvpn/config/.
+     cp user.crt openvpn/config/.
+     cp user.key openvpn/config/.
+     cp server.conf openvpn/config/.
        
 ### Links
 
