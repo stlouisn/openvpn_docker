@@ -2,7 +2,7 @@ FROM ubuntu:rolling
 
 LABEL org.label-schema.description="Secure VPN Gateway" \
       org.label-schema.name="OpenVPN" \
-      org.label-schema.url="https://openvpn.net/index.php/open-source/" \
+      org.label-schema.url="https://openvpn.net/index.php/open-source/"
 
 COPY rootfs /
 
@@ -22,9 +22,12 @@ RUN \
         ca-certificates \
         openssl && \
 
+    # Install iptables
+    apt install -y --no-install-recommends \
+        iptables && \
+
     # Install openvpn
     apt install -y --no-install-recommends \
-        iptables \
         openvpn && \
 
     # Install ping and traceroute
