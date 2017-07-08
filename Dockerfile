@@ -1,19 +1,8 @@
 FROM ubuntu:rolling
 
-ARG OPENVPN_VERSION
-
-ARG BUILD_DATE
-ARG VCS_REF
-
-LABEL org.label-schema.build-date=${BUILD_DATE} \
-      org.label-schema.description="Secure VPN Gateway" \
+LABEL org.label-schema.description="Secure VPN Gateway" \
       org.label-schema.name="OpenVPN" \
-      org.label-schema.schema-version="1.0" \
       org.label-schema.url="https://openvpn.net/index.php/open-source/" \
-      org.label-schema.vcs-ref=${VCS_REF} \
-      org.label-schema.vcs-url="https://github.com/stlouisn/openvpn_docker" \
-      org.label-schema.vendor="stlouisn" \
-      org.label-schema.version=${OPENVPN_VERSION}
 
 COPY rootfs /
 
