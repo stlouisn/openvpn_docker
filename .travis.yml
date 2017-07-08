@@ -3,8 +3,8 @@ dist: trusty
 sudo: required
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get upgrade -y
+  - sudo apt-get update -q
+  - sudo apt-get upgrade -q -y
   - docker version
   - if [ "${TRAVIS_BRANCH}" == "master" ]; then
       export DOCKER_TAG="latest";
@@ -12,22 +12,19 @@ before_install:
       export DOCKER_TAG=${TRAVIS_BRANCH};
     fi
 
-  - export UBUNTU_ROLLING=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
-  - export OPENVPN_VERSION=`curl -sS https://packages.ubuntu.com/${UBUNTU_ROLLING}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
-
-install:
-  - docker build  --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` -t ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
+  - export UBUNTU_VERSION=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
+  - export OPENVPN_VERSION=`curl -sS https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
 
 install:
   - >
     docker build
-    --build-arg OPENVPN_VERSION=${OPENVPN_VERSION}
     --label org.label-schema.build-date=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
     --label org.label-schema.build-number=${TRAVIS_BUILD_NUMBER}
     --label org.label-schema.schema-version="1.0"
     --label org.label-schema.vcs-ref=`git rev-parse --short HEAD`
     --label org.label-schema.vcs-url=`git remote get-url origin | head -c-5`
     --label org.label-schema.vendor="stlouisn"
+    --label org.label-schema.version=${OPENVPN_VERSION}
     --tag ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
 
 after_success:
