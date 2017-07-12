@@ -13,6 +13,8 @@ services:
     container_name: openvpn
     hostname: openvpn
     environment:
+      - TZ=UTC
+      - LC_ALL=C.UTF-8
       - VPN_GATEWAY=10.0.0.0 # VPN Gateway IP
       - LAN_GATEWAY=192.0.0.0 # Local Router IP
     restart: always
@@ -60,4 +62,5 @@ services:
       - ./htpcmanager/config:/config:rw
     network_mode: service:openvpn
     depends_on:
-      - transmission
+      transmission:
+        condition: service_healthy
