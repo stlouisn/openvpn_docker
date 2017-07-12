@@ -1,4 +1,4 @@
-#!/bin/
+#!/bin/bash
 
 # Set timezone
 TZ=${TZ:-UTC}
