@@ -1,4 +1,4 @@
-#!/bin/b a s h
+#!/bin/
 
 # Set timezone
 TZ=${TZ:-UTC}
