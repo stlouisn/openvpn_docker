@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 # DETERMINE CURRENT UBUNTU RELEASE
 export UBUNTU_VERSION=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
