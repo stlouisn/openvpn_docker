@@ -26,13 +26,13 @@ RUN \
     apt install -y --no-install-recommends \
         gosu && \
 
-    # Create dockeruser group
+    # Create docker group
     groupadd \
         --system \
         --gid 9999 \
         dockeruser && \
 
-    # Create dockeruser user
+    # Create docker user
     useradd \
         --system \
         --no-create-home \
