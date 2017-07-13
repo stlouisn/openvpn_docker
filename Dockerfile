@@ -26,22 +26,35 @@ RUN \
     apt install -y --no-install-recommends \
         gosu && \
 
-    # Create useradmin group
+    # Create dockeruser group
+    groupadd \
+        --system \
+        --gid 9999 \
+        dockeruser && \
 
-    # Create useradmin user
+    # Create dockeruser user
+    useradd \
+        --system \
+        --no-create-home \
+        --shell /sbin/nologin \
+        --gid 9999 \
+        --uid 9999 \
+        dockeruser && \
 
     # Install iptables
     apt install -y --no-install-recommends \
         iptables && \
 
-    # Install openvpn
-    apt install -y --no-install-recommends \
-        openvpn && \
-
     # Install ping and traceroute
     apt install -y --no-install-recommends \
         iputils-ping \
         iputils-tracepath && \
+
+    export OPENVPN_VERSION=`curl -sSL https://raw.githubusercontent.com/stlouisn/openvpn_docker/master/docker.labels/version | bash` && \
+
+    # Install openvpn
+    apt install -y --no-install-recommends \
+        openvpn && \
 
     # Set docker_entrypoint as executable
     chmod 0744 /usr/local/bin/docker_entrypoint.sh && \
@@ -56,8 +69,6 @@ RUN \
         /root/.wget-hsts \
         /tmp/* \
         /var/lib/apt/lists/*
-
-ENV LC_ALL=C.UTF-8
 
 VOLUME /etc/openvpn
 
