@@ -7,24 +7,24 @@
 [![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn.svg)](https://microbadger.com/images/stlouisn/openvpn)
 [![Build](https://travis-ci.org/stlouisn/openvpn_docker.svg?branch=master)](https://travis-ci.org/stlouisn/openvpn_docker)
 
-### Create TUN Device
+### Installation Instructions
+
+#### Create TUN Device
 
      mkdir -p /dev/net
      mknod /dev/net/tun c 10 200
      chmod 666 /dev/net/tun
 
-### Create Docker Network
+#### Create Docker Network
 
      docker network create \
        --driver macvlan \
        --subnet=192.168.100.0/24 \
        --gateway=192.168.100.1 \
-       --opt parent=enp4s0.100 \
+       --opt parent=eth0.100 \
      isolated_network
 
-*adjust (subnet, gateway, and parent) as required*
-
-### Install VPN Configuration Files
+#### Install VPN Configuration Files
 
      cp ca.crt openvpn/config/.
      cp ta.key openvpn/config/.
