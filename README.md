@@ -36,6 +36,7 @@
 
 - Use openvpn repository instead of default ubuntu
 - Update docker/labels/version script
+- Test/Update IPVLAN vs MACVLAN
 
 ### Links
 
