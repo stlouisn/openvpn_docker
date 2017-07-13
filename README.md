@@ -31,7 +31,12 @@
      cp user.crt openvpn/config/.
      cp user.key openvpn/config/.
      cp server.conf openvpn/config/.
-       
+
+### Feature Roadmap
+
+- Use openvpn repository instead of default ubuntu
+- Update docker/labels/version script
+
 ### Links
 
 https://openvpn.net/
