@@ -1,10 +1,6 @@
 FROM ubuntu:rolling
 
-LABEL org.label-schema.description="Secure VPN Gateway" \
-      org.label-schema.name="OpenVPN" \
-      org.label-schema.url="https://openvpn.net/index.php/open-source/"
-
-COPY rootfs /
+COPY docker.rootfs /
 
 RUN \
 
@@ -21,6 +17,18 @@ RUN \
     apt install -y --no-install-recommends \
         ca-certificates \
         openssl && \
+
+    # Install curl
+    apt install -y --no-install-recommends \
+        curl && \
+
+    # Install gosu
+    apt install -y --no-install-recommends \
+        gosu && \
+
+    # Create useradmin group
+
+    # Create useradmin user
 
     # Install iptables
     apt install -y --no-install-recommends \
