@@ -18,9 +18,9 @@ RUN \
         ca-certificates \
         openssl && \
 
-#    # Install curl
-#    apt install -y --no-install-recommends \
-#        curl && \
+    # Install curl
+    apt install -y --no-install-recommends \
+        curl && \
 
 #    # Install gosu
 #    apt install -y --no-install-recommends \
