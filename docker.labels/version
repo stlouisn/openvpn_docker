@@ -1,10 +1,4 @@
 #!/bin/bash
 
-# DETERMINE CURRENT UBUNTU RELEASE
-export UBUNTU_VERSION=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
-export OPENVPN_VERSION=`curl -sS https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
-echo $OPENVPN_VERSION
-
-## CHANGE TO MAKE VERSION INSTEAD OF REPO
-## https://www.google.ca/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjGrPSGrYTVAhVEeD4KHcOFCCQQFggoMAA&url=https%3A%2F%2Fopenvpn.net%2Findex.php%2Fopen-source%2F343-building-openvpn.html&usg=AFQjCNG-tYrZ46A_izrHZXpp7RnQYWPqwA
-## https://www.htpcguides.com/compile-latest-openvpn-from-source-on-debian-8/
+# ROLLING RELEASE
+UBUNTU_VERSION=`curl -sS https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling` echo `curl -sS https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
