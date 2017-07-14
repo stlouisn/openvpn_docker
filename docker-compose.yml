@@ -2,7 +2,7 @@ version: '2.2'
 
 networks:
 
-  macvlan:
+  vlan:
     external:
       name: isolated_network
 
@@ -25,8 +25,8 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      macvlan:
-        ipv4_address: 192.168.0.0 # Local Container IP
+      vlan:
+        ipv4_address: 192.168.100.2 # Local Container IP
     dns: 10.0.0.0 # VPN Name Server IP
     healthcheck:
       test: ping -c 1 -W 3 google.com
