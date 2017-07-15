@@ -22,24 +22,24 @@ RUN \
     apt install -y --no-install-recommends \
         curl && \
 
-#    # Install gosu
-#    apt install -y --no-install-recommends \
-#        gosu && \
+    # Install gosu
+    apt install -y --no-install-recommends \
+        gosu && \
 
-#    # Create docker group
-#    groupadd \
-#        --system \
-#        --gid 9999 \
-#        dockeruser && \
+    # Create openvpn group
+    groupadd \
+        --system \
+        --gid 9999 \
+        openvpn && \
 
-#    # Create docker user
-#    useradd \
-#        --system \
-#        --no-create-home \
-#        --shell /sbin/nologin \
-#        --gid 9999 \
-#        --uid 9999 \
-#        dockeruser && \
+    # Create docker user
+    useradd \
+        --system \
+        --no-create-home \
+        --shell /sbin/nologin \
+        --gid 9999 \
+        --uid 9999 \
+        openvpn && \
 
     # Install iptables
     apt install -y --no-install-recommends \
@@ -49,8 +49,6 @@ RUN \
     apt install -y --no-install-recommends \
         iputils-ping \
         iputils-tracepath && \
-
-#    export OPENVPN_VERSION=`curl -sSL https://raw.githubusercontent.com/stlouisn/openvpn_docker/master/docker.labels/version | bash` && \
 
     # Install openvpn
     apt install -y --no-install-recommends \
