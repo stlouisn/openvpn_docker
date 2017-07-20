@@ -1,4 +1,7 @@
 #!/bin/bash
 
-# ROLLING RELEASE
-UBUNTU_VERSION=`curl -sSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling` echo `curl -sSL https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
+# UBUNTU:ROLLING RELEASE
+UBUNTU_VERSION=`curl -sSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`
+
+# OPENVPN ROLLING RELEASE
+echo `curl -sSL https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`
