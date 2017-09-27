@@ -46,7 +46,7 @@ script:
     --tag ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
 
 after_success:
-  - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+  - echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
   - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
 
 notifications:
