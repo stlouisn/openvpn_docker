@@ -22,6 +22,7 @@ before_install:
 
 install:
   - echo ${VERSION} > docker.rootfs/${NAME}_version
+  - chmod 0744 docker.rootfs/usr/local/bin/docker_entrypoint.sh
 
 before_script:
   - if [ "${TRAVIS_BRANCH}" == "master" ]; then
