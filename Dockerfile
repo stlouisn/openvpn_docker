@@ -54,9 +54,6 @@ RUN \
     apt install -y --no-install-recommends \
         openvpn && \
 
-    # Set docker_entrypoint as executable
-    chmod 0744 /usr/local/bin/docker_entrypoint.sh && \
-
     # Clean apt-cache
     apt autoremove -y --purge && \
     apt autoclean -y && \
