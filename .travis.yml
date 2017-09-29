@@ -24,15 +24,13 @@ install:
   - echo ${VERSION} > docker.rootfs/${NAME}_version
   - chmod 0744 docker.rootfs/usr/local/bin/docker_entrypoint.sh
 
-after_install:
-  - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
-
 before_script:
   - if [ "${TRAVIS_BRANCH}" == "master" ]; then
       export DOCKER_TAG="latest";
     else
       export DOCKER_TAG="${TRAVIS_BRANCH}";
     fi
+  - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
 
 script:
   - >
