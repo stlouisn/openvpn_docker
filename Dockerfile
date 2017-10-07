@@ -6,33 +6,33 @@ RUN \
 
     export DEBIAN_FRONTEND=noninteractive && \
 
-    # Update apt-cache
+    # Update apt-cache && \
     apt update && \
 
-    # Install tzdata
+    # Install tzdata && \
     apt install -y --no-install-recommends \
         tzdata && \
 
-    # Install SSL
+    # Install SSL && \
     apt install -y --no-install-recommends \
         ca-certificates \
         openssl && \
 
-    # Install curl
+    # Install curl && \
     apt install -y --no-install-recommends \
         curl && \
 
-    # Install gosu
+    # Install gosu && \
     apt install -y --no-install-recommends \
         gosu && \
 
-    # Create openvpn group
+    # Create openvpn group && \
     groupadd \
         --system \
         --gid 9999 \
         openvpn && \
 
-    # Create docker user
+    # Create docker user && \
     useradd \
         --system \
         --no-create-home \
@@ -41,24 +41,27 @@ RUN \
         --uid 9999 \
         openvpn && \
 
-    # Install iptables
+    # Install iptables && \
     apt install -y --no-install-recommends \
         iptables && \
 
-    # Install ping and traceroute
+    # Install ping and traceroute && \
     apt install -y --no-install-recommends \
         iputils-ping \
         iputils-tracepath && \
 
-    # Install openvpn
+    # Install openvpn && \
     apt install -y --no-install-recommends \
         openvpn && \
 
-    # Clean apt-cache
+    # Remove default openvpn configuration && \
+    rm -rf /etc/openvpn && \
+
+    # Clean apt-cache && \
     apt autoremove -y --purge && \
     apt autoclean -y && \
 
-    # Cleanup temporary folders
+    # Cleanup temporary folders && \
     rm -rf \
         /root/.cache \
         /root/.wget-hsts \
