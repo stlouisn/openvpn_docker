@@ -54,7 +54,7 @@ RUN \
     apt install -y --no-install-recommends \
         openvpn && \
 
-    # Remove default openvpn configuration && \
+    # Remove openvpn default configuration&& \
     rm -rf /etc/openvpn && \
 
     # Clean apt-cache && \
