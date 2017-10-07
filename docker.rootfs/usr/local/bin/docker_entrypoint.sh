@@ -7,37 +7,37 @@ echo $TZ > /etc/timezone
 
 # Make sure volumes are mounted correctly
 if [ ! -d /etc/openvpn ]; then
-    printf "\nERROR: volume /etc/openvpn not mounted.\n" >&2
+    printf "\nERROR: volume \"/etc/openvpn\" not mounted.\n" >&2
+    exit 1
+fi
+
+# Check for configuration file: openvpn.conf
+if [ ! -e /etc/openvpn/openvpn.conf ]; then
+    printf "\nERROR: configuration file \"/etc/openvpn/openvpn.conf\" missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: ca.crt
 if [ ! -e /etc/openvpn/ca.crt ]; then
-    printf "\nERROR: configuration file \"ca.crt\" is missing.\n" >&2
+    printf "\nERROR: configuration file \"/etc/openvpn/ca.crt\" missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: ta.key
 if [ ! -e /etc/openvpn/ta.key ]; then
-    printf "\nERROR: configuration file \"ta.key\" is missing.\n" >&2
+    printf "\nERROR: configuration file \"/etc/openvpn/ta.key\" missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: user.crt
 if [ ! -e /etc/openvpn/user.crt ]; then
-    printf "\nERROR: configuration file \"user.crt\" is missing.\n" >&2
+    printf "\nERROR: configuration file \"/etc/openvpn/user.crt\" missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: user.key
 if [ ! -e /etc/openvpn/user.key ]; then
-    printf "\nERROR: configuration file \"user.key\" is missing.\n" >&2
-    exit 1
-fi
-
-# Check for configuration file: server.conf
-if [ ! -e /etc/openvpn/server.conf ]; then
-    printf "\nERROR: configuration file \"server.conf\" is missing.\n" >&2
+    printf "\nERROR: configuration file \"/etc/openvpn/user.key\" missing.\n" >&2
     exit 1
 fi
 
@@ -87,8 +87,7 @@ iptables -A INPUT  -i lo -j ACCEPT
 ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 
 # Start openvpn in console mode
-exec \
-    /usr/sbin/openvpn \
-        --auth-nocache \
-        --cd /etc/openvpn \
-        --config /etc/openvpn/server.conf
+exec /usr/sbin/openvpn \
+    --auth-nocache \
+    --cd /etc/openvpn \
+    --config /etc/openvpn/openvpn.conf
