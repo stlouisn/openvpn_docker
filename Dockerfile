@@ -7,23 +7,23 @@ RUN \
     export DEBIAN_FRONTEND=noninteractive && \
 
     # Update apt-cache && \
-    apt update && \
+    apt-get update && \
 
     # Install tzdata && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         tzdata && \
 
     # Install SSL && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         ca-certificates \
         openssl && \
 
     # Install curl && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         curl && \
 
     # Install gosu && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         gosu && \
 
     # Create openvpn group && \
@@ -32,7 +32,7 @@ RUN \
         --gid 9999 \
         openvpn && \
 
-    # Create docker user && \
+    # Create openvpn user && \
     useradd \
         --system \
         --no-create-home \
@@ -42,24 +42,30 @@ RUN \
         openvpn && \
 
     # Install iptables && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         iptables && \
 
-    # Install ping and traceroute && \
-    apt install -y --no-install-recommends \
-        iputils-ping \
-        iputils-tracepath && \
+    # Install inetutils && \
+    apt-get install -y --no-install-recommends \
+        inetutils-ping \
+        inetutils-traceroute \
+        inetutils-tools && \
+    update-alternatives --install /usr/bin/ifconfig ifconfig /usr/bin/inetutils-ifconfig 1 && \
+
+    # Install killall && \
+    apt-get install -y --no-install-recommends \
+        psmisc && \
 
     # Install openvpn && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
         openvpn && \
 
     # Remove openvpn default configuration&& \
     rm -rf /etc/openvpn && \
 
     # Clean apt-cache && \
-    apt autoremove -y --purge && \
-    apt autoclean -y && \
+    apt-get autoremove -y --purge && \
+    apt-get autoclean -y && \
 
     # Cleanup temporary folders && \
     rm -rf \
