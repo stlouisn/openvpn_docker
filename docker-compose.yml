@@ -1,10 +1,10 @@
-version: '2.2'
+version: '2.3'
 
 networks:
 
-  vlan:
+  vpn_network:
     external:
-      name: isolated_network
+      name: vpn_macvlan
 
 services:
 
@@ -13,8 +13,6 @@ services:
     container_name: openvpn
     hostname: openvpn
     environment:
-      - TZ=UTC
-      - LC_ALL=C.UTF-8
       - VPN_GATEWAY=10.0.0.0 # VPN Gateway IP
       - LAN_GATEWAY=192.0.0.0 # Local Router IP
     restart: always
@@ -25,11 +23,12 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
-      vlan:
+      vpn_network:
         ipv4_address: 192.168.100.2 # Local Container IP
     dns: 10.0.0.0 # VPN Name Server IP
     healthcheck:
       test: ping -c 1 -W 3 google.com
+      start_period: 30s
       interval: 60s
       timeout: 10s
       retries: 5
@@ -47,6 +46,7 @@ services:
     network_mode: service:openvpn
     healthcheck:
       test: curl --fail http://localhost:9091 || exit 1
+      start_period: 30s
       interval: 60s
       timeout: 10s
       retries: 3
@@ -54,12 +54,14 @@ services:
       openvpn:
         condition: service_healthy
 
-  htpcmanager:
-    image: linuxserver/htpcmanager
-    container_name: htpcmanager
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
     restart: always
     volumes:
-      - ./htpcmanager/config:/config:rw
+      - ./radarr/config:/config:rw
+      - ./radarr/downloads:/downloads:rw
+      - ./radarr/movies:/movies:rw
     network_mode: service:openvpn
     depends_on:
       transmission:
