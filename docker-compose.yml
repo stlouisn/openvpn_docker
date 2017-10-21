@@ -4,7 +4,7 @@ networks:
 
   vpn_network:
     external:
-      name: vpn_macvlan
+      name: macvlan_network
 
 services:
 
@@ -27,10 +27,10 @@ services:
         ipv4_address: 192.168.100.2 # Local Container IP
     dns: 10.0.0.0 # VPN Name Server IP
     healthcheck:
-      test: ping -c 1 -W 3 google.com
+      test: ping -c 1 -w 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)
       start_period: 30s
       interval: 60s
-      timeout: 10s
+      timeout: 30s
       retries: 5
 
 ######### EVERYTHING BELOW IS OPTIONAL #########
@@ -45,7 +45,7 @@ services:
       - ./transmission/watched-dir:/watch:rw
     network_mode: service:openvpn
     healthcheck:
-      test: curl --fail http://localhost:9091 || exit 1
+      test: curl -sS localhost:9091 -o /dev/null && echo 'curl: (0) Successfully connected to localhost port 9091' || exit 1
       start_period: 30s
       interval: 60s
       timeout: 10s
