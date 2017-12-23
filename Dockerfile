@@ -1,6 +1,6 @@
 FROM ubuntu:rolling
 
-COPY docker.rootfs /
+COPY rootfs /
 
 RUN \
 
