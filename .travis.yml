@@ -2,34 +2,36 @@ language: bash
 dist: trusty
 sudo: required
 
+branches:
+  only:
+    - master
+
 env:
   global:
     - BUILD_DATE="`date -u +%Y-%m-%dT%H:%M:%SZ`"
     - BUILD_NUMBER="${TRAVIS_BUILD_NUMBER}"
-    - DESCRIPTION="`bash docker.labels/description`"
-    - MAINTAINER="stlouisn"
-    - NAME="`bash docker.labels/name`"
+    - DOCKER_DESCRIPTION="secure vpn gateway"
+    - DOCKER_MAINTAINER="stlouisn"
+    - DOCKER_NAME="openvpn"
     - SCHEMA_VERSION="1.0"
-    - URL="`bash docker.labels/url`"
+    - URL="https://openvpn.net/index.php/open-source/"
     - VCS_REF="`git rev-parse --short HEAD`"
     - VCS_URL="`git remote get-url origin | head -c-5`"
-    - VERSION="`bash docker.labels/version`"
+  matrix:
+    - DOCKER_TAG="latest"
+      UBUNTU_VERSION="`curl -sSL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`"
+      DOCKER_VERSION="`curl -sSL https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep "Download Page" | awk -F "_" '{print $2}' | awk -F "ubuntu" '{print $1}'`"
 
 before_install:
+  - echo ${VERSION}
   - sudo apt-get update -q
   - sudo apt-get upgrade -q -y
   - docker version
 
 install:
-  - echo ${VERSION} > docker.rootfs/${NAME}_version
-  - chmod 0744 docker.rootfs/usr/local/bin/docker_entrypoint.sh
+  - chmod 0744 rootfs/usr/local/bin/docker_entrypoint.sh
 
 before_script:
-  - if [ "${TRAVIS_BRANCH}" == "master" ]; then
-      export DOCKER_TAG="latest";
-    else
-      export DOCKER_TAG="${TRAVIS_BRANCH}";
-    fi
   - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
 
 script:
@@ -37,19 +39,20 @@ script:
     docker build
     --label org.label-schema.build-date=${BUILD_DATE}
     --label org.label-schema.build-number=${BUILD_NUMBER}
-    --label org.label-schema.description="${DESCRIPTION}"
-    --label org.label-schema.maintainer=${MAINTAINER}
-    --label org.label-schema.name=${NAME}
+    --label org.label-schema.description="${DOCKER_DESCRIPTION}"
+    --label org.label-schema.maintainer=${DOCKER_MAINTAINER}
+    --label org.label-schema.name=${DOCKER_NAME}
     --label org.label-schema.schema-version=${SCHEMA_VERSION}
     --label org.label-schema.url=${URL}
     --label org.label-schema.vcs-ref=${VCS_REF}
     --label org.label-schema.vcs-url=${VCS_URL}
-    --label org.label-schema.version=${VERSION}
-    --tag ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG} .
+    --label org.label-schema.version=${DOCKER_VERSION}
+    --tag ${DOCKER_USERNAME}/${DOCKER_NAME}:${DOCKER_TAG}
+    --pull .
 
 after_success:
   - echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
-  - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
+  - docker push ${DOCKER_USERNAME}/${DOCKER_NAME}:${DOCKER_TAG}
 
 notifications:
   email:
