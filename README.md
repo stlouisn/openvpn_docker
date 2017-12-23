@@ -32,10 +32,6 @@
      cp user.key openvpn/config/.
      cp server.conf openvpn/config/.
 
-### Feature Roadmap
-
-- - Update docker/labels/version script
-
 ### Links
 
 https://openvpn.net/
