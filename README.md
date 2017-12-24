@@ -25,11 +25,11 @@
 #### Required VPN Configuration Files
 
      /openvpn/config/
-          ca.crt 
-          ta.key
-          user.crt
-          user.key
-          server.conf
+       ca.crt 
+       ta.key
+       user.crt
+       user.key
+       server.conf
 
 #### Links
 
