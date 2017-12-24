@@ -22,7 +22,7 @@
        --opt parent=eth0.100 \
      isolated_network
 
-#### Required VPN Configuration Files
+#### VPN Configuration Files
 
      /openvpn/config/
        ca.crt 
