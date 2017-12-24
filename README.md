@@ -22,13 +22,14 @@
        --opt parent=eth0.100 \
      isolated_network
 
-#### Required Configuration Files in /openvpn/config/
+#### Required VPN Configuration Files
 
-     ca.crt 
-     ta.key
-     user.crt
-     user.key
-     server.conf
+     /openvpn/config/
+          ca.crt 
+          ta.key
+          user.crt
+          user.key
+          server.conf
 
 #### Links
 
