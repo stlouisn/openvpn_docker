@@ -7,8 +7,6 @@
 [![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn.svg)](https://microbadger.com/images/stlouisn/openvpn)
 [![Build](https://travis-ci.org/stlouisn/openvpn_docker.svg?branch=master)](https://travis-ci.org/stlouisn/openvpn_docker)
 
-### Installation Instructions
-
 #### Create TUN Device
 
      mkdir -p /dev/net
@@ -24,14 +22,14 @@
        --opt parent=eth0.100 \
      isolated_network
 
-#### Required VPN Configuration Files
+#### Required Configuration Files in /openvpn/config/
 
-     ca.crt in ./openvpn/config/
-     ta.key in ./openvpn/config/
-     user.crt in ./openvpn/config/
-     user.key in ./openvpn/config/
-     server.conf in ./openvpn/config/
+     ca.crt 
+     ta.key
+     user.crt
+     user.key
+     server.conf
 
-### Links
+#### Links
 
 https://openvpn.net/
