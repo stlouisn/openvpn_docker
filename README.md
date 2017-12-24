@@ -24,13 +24,13 @@
        --opt parent=eth0.100 \
      isolated_network
 
-#### Install VPN Configuration Files
+#### Required VPN Configuration Files
 
-     cp ca.crt openvpn/config/.
-     cp ta.key openvpn/config/.
-     cp user.crt openvpn/config/.
-     cp user.key openvpn/config/.
-     cp server.conf openvpn/config/.
+     ca.crt in ./openvpn/config/
+     ta.key in ./openvpn/config/
+     user.crt in ./openvpn/config/
+     user.key in ./openvpn/config/
+     server.conf in ./openvpn/config/
 
 ### Links
 
