@@ -23,8 +23,6 @@ env:
       DOCKER_VERSION="`curl -sSL https://packages.ubuntu.com/${UBUNTU_VERSION}/amd64/openvpn/download | grep 'Download Page' | awk -F '_' '{print $2}' | awk -F 'ubuntu' '{print $1}'`"
 
 before_install:
-  - echo ${UBUNTU_VERSION}
-  - echo ${DOCKER_VERSION}
   - sudo apt-get update -q
   - sudo apt-get upgrade -q -y
   - docker version
