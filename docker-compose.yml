@@ -4,7 +4,7 @@ networks:
 
   vpn_network:
     external:
-      name: macvlan_network
+      name: private_network
 
 services:
 
@@ -12,8 +12,10 @@ services:
     image: stlouisn/openvpn
     container_name: openvpn
     environment:
-      - VPN_GATEWAY=10.0.0.0 # VPN Gateway IP
-      - LAN_GATEWAY=192.168.0.1 # Local Network Router IP
+      - VPN_GATEWAY=10.0.0.0 # VPN Gateway
+      - VPN_PORT=443 # VPN Port
+      - VPN_PROTOCOL=udp # VPN Protocol
+      - LAN_GATEWAY=192.168.0.0 # Local Network Router IP
     restart: always
     volumes:
       - ./openvpn/config:/etc/openvpn:rw
@@ -23,7 +25,7 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       vpn_network:
-        ipv4_address: 192.168.0.2 # Assign IP to VPN Container
+        ipv4_address: 192.168.0.0 # Assign IP to VPN Container
     dns: 10.0.0.0 # VPN Name Server IP
     healthcheck:
       test: ping -c 1 -w 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)
