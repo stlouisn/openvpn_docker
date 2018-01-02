@@ -13,7 +13,7 @@
      mknod /dev/net/tun c 10 200
      chmod 666 /dev/net/tun
 
-#### Create Docker Network ( vlan100 on eth0 )
+#### Create Docker Network ( modify as required )
 
      docker network create \
        --driver macvlan \
@@ -22,14 +22,21 @@
        --opt parent=eth0.100 \
      private_network
 
-#### VPN Configuration Files
+#### Required Configuration Files
 
      /openvpn/config/
        ca.crt 
        ta.key
        user.crt
        user.key
-       server.conf
+       openvpn.conf
+
+#### Required Environment Variables
+
+     VPN_GATEWAY=x.x.x.x
+     VPN_PORT=xxxx
+     VPN_PROTOCOL=udp/tcp
+     LAN_GATEWAY=x.x.x.x
 
 #### Links
 
