@@ -53,6 +53,12 @@ if [ -z "$VPN_GATEWAY" ]; then
     exit 1
 fi
 
+# Verify required environment variable - VPN_PORT
+if [ -z "$VPN_PORT" ]; then
+    echo $'\nERROR: Environment VPN_PORT needs to be set!' >&2
+    exit 1
+fi
+
 # Verify required environment variable - LAN_GATEWAY
 if [ -z "$LAN_GATEWAY" ]; then
     echo $'\nERROR: Environment LAN_GATEWAY needs to be set!' >&2
@@ -68,8 +74,8 @@ iptables --policy OUTPUT  DROP
 iptables --policy INPUT   DROP 
 
 # Allow VPN connection on ETH0
-iptables -A OUTPUT -o eth0 -d $VPN_GATEWAY -p udp --dport 443 -j ACCEPT
-iptables -A INPUT  -i eth0 -s $VPN_GATEWAY -p udp --sport 443 -j ACCEPT
+iptables -A OUTPUT -o eth0 -d $VPN_GATEWAY -p udp --dport $VPN_PORT -j ACCEPT
+iptables -A INPUT  -i eth0 -s $VPN_GATEWAY -p udp --sport $VPN_PORT -j ACCEPT
 
 # Allow ALL on TUN0
 iptables -A OUTPUT -o tun0 -d 0.0.0.0/0 -j ACCEPT
