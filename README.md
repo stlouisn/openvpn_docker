@@ -7,7 +7,7 @@
 [![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn.svg)](https://microbadger.com/images/stlouisn/openvpn)
 [![Build](https://travis-ci.org/stlouisn/openvpn_docker.svg?branch=master)](https://travis-ci.org/stlouisn/openvpn_docker)
 
-#### Create TUN Device
+#### Create TUN Device on Host System
 
      mkdir -p /dev/net
      mknod /dev/net/tun c 10 200
@@ -20,7 +20,7 @@
        --subnet=192.168.100.0/24 \
        --gateway=192.168.100.1 \
        --opt parent=eth0.100 \
-     private_network
+       private_network
 
 #### Required Configuration Files
 
@@ -34,8 +34,8 @@
 #### Required Environment Variables
 
      VPN_GATEWAY=x.x.x.x
-     VPN_PORT=xxxx
      VPN_PROTOCOL=udp/tcp
+     VPN_PORT=xxxx
      LAN_GATEWAY=x.x.x.x
 
 #### Links
