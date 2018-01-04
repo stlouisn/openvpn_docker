@@ -6,69 +6,71 @@ cp /usr/share/zoneinfo/$TZ /etc/localtime
 echo $TZ > /etc/timezone
 
 # Make sure volumes are mounted correctly
-if [ ! -d /etc/openvpn ]; then
-    printf "\nERROR: volume \"/etc/openvpn\" not mounted.\n" >&2
+if [[ ! -d /etc/openvpn ]]; then
+    echo -e "\nError: volume '/etc/openvpn/' not mounted.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: openvpn.conf
-if [ ! -e /etc/openvpn/openvpn.conf ]; then
-    printf "\nERROR: configuration file \"/etc/openvpn/openvpn.conf\" missing.\n" >&2
+if [[ ! -e /etc/openvpn/openvpn.conf ]]; then
+    echo -e "\nError: configuration file '/etc/openvpn/openvpn.conf' is missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: ca.crt
-if [ ! -e /etc/openvpn/ca.crt ]; then
-    printf "\nERROR: configuration file \"/etc/openvpn/ca.crt\" missing.\n" >&2
+if [[ ! -e /etc/openvpn/ca.crt ]]; then
+    echo -e "\nError: configuration file '/etc/openvpn/ca.crt' is missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: ta.key
-if [ ! -e /etc/openvpn/ta.key ]; then
-    printf "\nERROR: configuration file \"/etc/openvpn/ta.key\" missing.\n" >&2
+if [[ ! -e /etc/openvpn/ta.key ]]; then
+    echo -e "\nError: configuration file '/etc/openvpn/ta.key' is missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: user.crt
-if [ ! -e /etc/openvpn/user.crt ]; then
-    printf "\nERROR: configuration file \"/etc/openvpn/user.crt\" missing.\n" >&2
+if [[ ! -e /etc/openvpn/user.crt ]]; then
+    echo -e "\nError: configuration file '/etc/openvpn/user.crt' is missing.\n" >&2
     exit 1
 fi
 
 # Check for configuration file: user.key
-if [ ! -e /etc/openvpn/user.key ]; then
-    printf "\nERROR: configuration file \"/etc/openvpn/user.key\" missing.\n" >&2
+if [[ ! -e /etc/openvpn/user.key ]]; then
+    echo -e "\nError: configuration file '/etc/openvpn/user.key' is missing.\n" >&2
     exit 1
 fi
 
-# Fix user and group ownerships
-chown -R root:root /etc/openvpn
-
-# Secure VPN keys
-find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
-
-# Verify required environment variable - VPN_GATEWAY
-if [ -z "$VPN_GATEWAY" ]; then
-    echo $'\nERROR: Environment VPN_GATEWAY needs to be set!' >&2
+# Check for environment variable: VPN_GATEWAY
+if [[ -z "$VPN_GATEWAY" ]]; then
+    echo -e "\nError: Environment 'VPN_GATEWAY' needs to be set.\n" >&2
     exit 1
 fi
 
-# Verify required environment variable - VPN_PORT
-if [ -z "$VPN_PORT" ]; then
-    echo $'\nERROR: Environment VPN_PORT needs to be set!' >&2
+# Check for environment variable: VPN_PROTOCOL
+if [[ -z "$VPN_PROTOCOL" ]]; then
+    echo -e "\nError: Environment 'VPN_PROTOCOL' needs to be set!.\n" >&2
     exit 1
 fi
 
-# Verify required environment variable - VPN_PROTOCOL
-if [ -z "$VPN_PROTOCOL" ]; then
-    echo $'\nERROR: Environment VPN_PROTOCOL needs to be set!' >&2
+# Check for environment variable: VPN_PORT
+if [[ -z "$VPN_PORT" ]]; then
+    echo -e "\nError: Environment 'VPN_PORT' needs to be set!.\n" >&2
     exit 1
 fi
 
-# Verify required environment variable - LAN_GATEWAY
-if [ -z "$LAN_GATEWAY" ]; then
-    echo $'\nERROR: Environment LAN_GATEWAY needs to be set!' >&2
+# Check for environment variable: LAN_GATEWAY
+if [[ -z "$LAN_GATEWAY" ]]; then
+    echo -e "\nError: Environment 'LAN_GATEWAY' needs to be set!.\n" >&2
     exit 1
+fi
+
+# Fix user and group ownerships and secure private keys
+if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "ro" ]]; then
+    echo -e "\nWarning: volume '/etc/openvpn/' is readonly." >&2
+else
+    chown -R root:root /etc/openvpn
+    find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
 fi
 
 # Flush all rules
