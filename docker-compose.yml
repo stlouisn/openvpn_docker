@@ -12,10 +12,10 @@ services:
     image: stlouisn/openvpn
     container_name: openvpn
     environment:
-      - VPN_GATEWAY=10.0.0.1 # change this to your vpn's gateway
-      - VPN_PORT=443 # change this to your vpn's port number
-      - VPN_PROTOCOL=udp # change this to your vpn's protocol ( tcp or udp )
-      - LAN_GATEWAY=192.168.0.1 # change this to your local gateway/router
+      - VPN_GATEWAY=10.0.0.1
+      - VPN_PROTOCOL=udp
+      - VPN_PORT=1194
+      - LAN_GATEWAY=192.168.0.1
     restart: always
     volumes:
       - ./openvpn/config:/etc/openvpn:rw
@@ -25,8 +25,8 @@ services:
       - /dev/net/tun:/dev/net/tun
     networks:
       vpn_network:
-        ipv4_address: 192.168.0.2 # change this to an available IP on your subnet
-    dns: 10.0.0.0 # change this to your vpn's dns
+        ipv4_address: 192.168.0.2
+    dns: 10.0.0.2
     healthcheck:
       test: ping -c 1 -w 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)
       start_period: 30s
@@ -43,7 +43,6 @@ services:
     volumes:
       - ./transmission/config:/config:rw
       - ./transmission/downloads:/downloads:rw
-      - ./transmission/watched-dir:/watch:rw
     network_mode: service:openvpn
     healthcheck:
       test: curl -sS localhost:9091 -o /dev/null && echo 'curl: (0) Successfully connected to localhost port 9091' || exit 1
