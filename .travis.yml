@@ -29,7 +29,7 @@ before_install:
   - docker version
 
 install:
-  - chmod 0744 rootfs/usr/local/bin/docker_entrypoint.sh
+  - chmod 0744 rootfs/usr/local/bin/*.sh
 
 before_script:
   - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
