@@ -1,34 +1,10 @@
-FROM ubuntu:rolling
+FROM stlouisn/ubuntu:rolling
 
 COPY rootfs /
 
 RUN \
 
-#######################################################
-
     export DEBIAN_FRONTEND=noninteractive && \
-
-    # Update apt-cache
-    apt-get update && \
-
-    # Install tzdata
-    apt-get install -y --no-install-recommends \
-        tzdata && \
-
-    # Install SSL
-    apt-get install -y --no-install-recommends \
-        ca-certificates \
-        openssl && \
-
-    # Install curl
-    apt-get install -y --no-install-recommends \
-        curl && \
-
-    # Install gosu
-    apt-get install -y --no-install-recommends \
-        gosu && \
-
-#######################################################
 
     # Create openvpn group
     groupadd \
@@ -46,7 +22,8 @@ RUN \
         --uid 9999 \
         openvpn && \
 
-#######################################################
+    # Update apt-cache
+    apt-get update && \
 
     # Install iptables
     apt-get install -y --no-install-recommends \
@@ -69,8 +46,6 @@ RUN \
 
     # Remove openvpn default configuration
     rm -rf /etc/openvpn && \
-
-#######################################################
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
