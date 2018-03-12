@@ -22,7 +22,7 @@
        --opt parent=eth0.20 \
        vlan20
 
-#### Acceptable Configuration File Formats
+#### VPN Configuration File Formats
 
      .ovpn
      .conf
