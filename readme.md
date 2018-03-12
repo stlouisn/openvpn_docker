@@ -17,9 +17,9 @@
 
      docker network create \
        --driver macvlan \
-       --subnet=192.168.100.0/24 \
-       --gateway=192.168.100.1 \
-       --opt parent=eth0.100 \
+       --subnet=192.168.20.0/24 \
+       --gateway=192.168.20.1 \
+       --opt parent=eth0.20 \
        private_network
 
 #### Required Configuration Files
