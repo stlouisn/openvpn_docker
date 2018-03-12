@@ -1,5 +1,11 @@
 version: '2.3'
 
+networks:
+
+  vpn_network:
+    external:
+      name: vlan20                     # <--- network must already exist
+
 services:
 
   openvpn:
@@ -24,6 +30,9 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun      # <--- tun device must already exist
+    networks:
+      vpn_network:
+        ipv4_address: 123.123.123.123  # <--- available IP on vlan20
     dns: 123.123.123.123               # <--- router IP
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
@@ -32,8 +41,8 @@ services:
       timeout: 30s
       retries: 5
 
-  container_name:
-    image: image_name
+  transmission:
+    image: linuxserver/transmission:latest
     network_mode: service:openvpn
     depends_on:
       openvpn:
