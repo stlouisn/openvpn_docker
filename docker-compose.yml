@@ -34,4 +34,9 @@ services:
       timeout: 30s
       retries: 5
 
-  other_container:
+  container_name:
+    image: image_name
+    network_mode: service:openvpn
+    depends_on:
+      openvpn:
+        condition: service_healthy
