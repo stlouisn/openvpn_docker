@@ -22,9 +22,10 @@
        --opt parent=eth0.20 \
        vlan20
 
-#### Required .ovpn or .conf Configuration File in:
+#### Acceptable Configuration File Formats
 
-     /openvpn/config/
+     .ovpn
+     .conf
 
 #### Required Environment Variables
 
