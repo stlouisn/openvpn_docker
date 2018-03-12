@@ -1,6 +1,6 @@
 ### OpenVPN Docker
 
-*Secure VPN Gateway*
+*'Secure VPN Gateway'*
 
 [![Version](https://images.microbadger.com/badges/version/stlouisn/openvpn.svg)](https://microbadger.com/images/stlouisn/openvpn)
 [![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn.svg)](https://microbadger.com/images/stlouisn/openvpn)
@@ -36,4 +36,4 @@
 
 #### Links
 
-https://openvpn.net/
+###### *https://openvpn.net/*
