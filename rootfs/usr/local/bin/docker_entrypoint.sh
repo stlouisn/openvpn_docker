@@ -81,4 +81,4 @@ ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 exec /usr/sbin/openvpn \
     --auth-nocache \
     --cd /etc/openvpn \
-    --config $CLIENT_CONFIG
+    --config $CONFIG_FILE
