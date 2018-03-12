@@ -26,6 +26,12 @@ if [[ -z "$LAN_GATEWAY" ]]; then
     exit 1
 fi
 
+# Make sure volume '/etc/openvpn' is mounted
+if [[ ! -d /etc/openvpn ]]; then
+    echo -e "\nError: volume '/etc/openvpn' is not mounted.\n" >&2
+    exit 1
+fi
+
 # Make sure '.ovpn' or '.conf' file exists
 for file in /etc/openvpn/*.ovpn /etc/openvpn/*.conf; do
     if [[ -f $file ]]; then
@@ -78,7 +84,8 @@ ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
 #=========================================================================================
 
 # Start openvpn in console mode
-exec /usr/sbin/openvpn \
+exec \
+    /usr/sbin/openvpn \
     --auth-nocache \
     --cd /etc/openvpn \
     --config $CONFIG_FILE
