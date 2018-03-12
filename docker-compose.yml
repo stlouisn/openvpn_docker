@@ -25,8 +25,6 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun      # <--- tun device must already exist
     dns: 123.123.123.123               # <--- router IP
-    ports:
-      - 8989
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
