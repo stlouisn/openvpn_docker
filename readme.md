@@ -20,23 +20,18 @@
        --subnet=192.168.20.0/24 \
        --gateway=192.168.20.1 \
        --opt parent=eth0.20 \
-       private_network
+       vlan20
 
-#### Required Configuration Files
+#### Required .ovpn or .conf Configuration File in:
 
      /openvpn/config/
-       ca.crt 
-       ta.key
-       user.crt
-       user.key
-       openvpn.conf
 
 #### Required Environment Variables
 
-     VPN_GATEWAY=x.x.x.x
-     VPN_PROTOCOL=udp/tcp
-     VPN_PORT=xxxx
-     LAN_GATEWAY=x.x.x.x
+     VPN_GATEWAY=123.123.123.123    # <--- vpn gateway
+     VPN_PORT=1234                  # <--- vpn port
+     VPN_PROTOCOL=udp               # <--- tcp/udp
+     LAN_GATEWAY=123.123.123.123    # <--- router IP
 
 #### Links
 
