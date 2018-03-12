@@ -34,6 +34,4 @@
      VPN_PROTOCOL=udp               # <--- tcp/udp
      LAN_GATEWAY=123.123.123.123    # <--- router IP
 
-#### Links
-
 ###### *https://openvpn.net/*
