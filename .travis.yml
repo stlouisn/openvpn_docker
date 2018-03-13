@@ -28,8 +28,8 @@ env:
     - VCS_URL="`git remote get-url origin | head -c-5`"
   matrix:
     - DOCKER_TAG="latest"
+      DOCKER_VERSION="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'apt update && apt-cache madison openvpn') | grep openvpn | awk -F '|' {'print $2'} | awk -F '-' {'print $1'} | sort | tail -n 1 | tr -d ' '`"
     #- DOCKER_VERSION="`curl -s https://packages.ubuntu.com/${DISTRIB_CODENAME}/amd64/openvpn/download | grep 'Download Page' | awk -F '_' {'print $2'} | awk -F 'ubuntu' {'print $1'}`"
-    - DOCKER_VERSION="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'apt update && apt-cache madison openvpn') | grep openvpn | awk -F '|' {'print $2'} | awk -F '-' {'print $1'} | sort | tail -n 1 | tr -d ' '`"
 
 before_install:
   - docker version
