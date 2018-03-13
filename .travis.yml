@@ -16,9 +16,9 @@ env:
   global:
     - BUILD_DATE="`date -u +%Y-%m-%dT%H:%M:%SZ`"
     - BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
-    - DISTRIB_ID="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_ID | awk -F '=' {'print $2'}`"
-    - DISTRIB_RELEASE="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_RELEASE | awk -F '=' {'print $2'}`"
-    - DISTRIB_CODENAME="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_CODENAME | awk -F '=' {'print $2'}`"
+#    - DISTRIB_ID="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_ID | awk -F '=' {'print $2'}`"
+#    - DISTRIB_RELEASE="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_RELEASE | awk -F '=' {'print $2'}`"
+#    - DISTRIB_CODENAME="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_CODENAME | awk -F '=' {'print $2'}`"
     - DOCKER_DESCRIPTION="secure vpn gateway"
     - DOCKER_MAINTAINER="stlouisn"
     - DOCKER_NAME="openvpn"
@@ -28,10 +28,26 @@ env:
     - VCS_URL="`git remote get-url origin | head -c-5`"
   matrix:
     - DOCKER_TAG="latest"
-      DOCKER_VERSION="`curl -s https://packages.ubuntu.com/${DISTRIB_CODENAME}/amd64/openvpn/download | grep 'Download Page' | awk -F '_' {'print $2'} | awk -F 'ubuntu' {'print $1'}`"
+#      DOCKER_VERSION="`curl -s https://packages.ubuntu.com/${DISTRIB_CODENAME}/amd64/openvpn/download | grep 'Download Page' | awk -F '_' {'print $2'} | awk -F 'ubuntu' {'print $1'}`"
 
 before_install:
   - docker version
+  - echo 1 $DISTRIB_CODENAME
+  - echo 2 $DISTRIB_DESCRIPTION
+  - echo 3 $DISTRIB_ID
+  - echo 4 $DISTRIB_RELEASE
+  - |
+    docker pull stlouisn/ubuntu:rolling
+    docker create --name ubuntu stlouisn/ubuntu:rolling /bin/bash
+    docker cp ubuntu:/etc/lsb-release .
+    set -a
+    . ./lsb-release
+  - echo 1 $DISTRIB_CODENAME
+  - echo 2 $DISTRIB_DESCRIPTION
+  - echo 3 $DISTRIB_ID
+  - echo 4 $DISTRIB_RELEASE
+  - export DOCKER_VERSION="`curl -s https://packages.ubuntu.com/${DISTRIB_CODENAME}/amd64/openvpn/download | grep 'Download Page' | awk -F '_' {'print $2'} | awk -F 'ubuntu' {'print $1'}`"
+  - echo 5 $DOCKER_VERSION
 
 install:
 
