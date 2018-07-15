@@ -2,33 +2,33 @@
 
 #=========================================================================================
 
-# Make sure environment variable VPN_GATEWAY is set
+# Make sure environment VPN_GATEWAY is set
 if [[ -z "$VPN_GATEWAY" ]]; then
-    echo -e "\nError: Environment variable 'VPN_GATEWAY' needs to be set.\n" >&2
+    echo -e "\nError: Environment 'VPN_GATEWAY' must be defined.\n" >&2
     exit 1
 fi
 
-# Make sure environment variable VPN_PROTOCOL is set
+# Make sure environment VPN_PROTOCOL is set
 if [[ -z "$VPN_PROTOCOL" ]]; then
-    echo -e "\nError: Environment variable 'VPN_PROTOCOL' needs to be set!.\n" >&2
+    echo -e "\nError: Environment 'VPN_PROTOCOL' must be defined.\n" >&2
     exit 1
 fi
 
-# Make sure environment variable VPN_PORT is set
+# Make sure environment VPN_PORT is set
 if [[ -z "$VPN_PORT" ]]; then
-    echo -e "\nError: Environment variable 'VPN_PORT' needs to be set!.\n" >&2
+    echo -e "\nError: Environment 'VPN_PORT' must be defined.\n" >&2
     exit 1
 fi
 
-# Make sure environment variable LAN_GATEWAY is set
+# Make sure environment LAN_GATEWAY is set
 if [[ -z "$LAN_GATEWAY" ]]; then
-    echo -e "\nError: Environment variable 'LAN_GATEWAY' needs to be set!.\n" >&2
+    echo -e "\nError: Environment 'LAN_GATEWAY' must be defined.\n" >&2
     exit 1
 fi
 
 # Make sure volume '/etc/openvpn' is mounted
 if [[ ! -d /etc/openvpn ]]; then
-    echo -e "\nError: volume '/etc/openvpn' is not mounted.\n" >&2
+    echo -e "\nError: Volume '/etc/openvpn' not mounted.\n" >&2
     exit 1
 fi
 
