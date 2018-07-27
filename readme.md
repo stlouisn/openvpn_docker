@@ -26,10 +26,12 @@ OpenVPN Docker is a secure VPN Gateway.
 
 [![Feature Requests][feathub_data]][feathub_url]
 
-### Installation - Modify as Required
+### Pre-Installation
 
 ```bash
-#Create TUN Device on Host System
+# Modify as Required
+
+# Create TUN Device on Host System
 mkdir -p /dev/net
 mknod /dev/net/tun c 10 200
 chmod 666 /dev/net/tun
@@ -42,7 +44,10 @@ docker network create \
   --opt parent=eth0.30 \
   vlan30
 
+# Create OpenVPN Configuration Directory
 mkdir -p /docker/openvpn/config
+
+# Copy OpenVPN Configuration File
 cp serverconfig.ovpn /docker/openvpn/config/.
 ```
 
