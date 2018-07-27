@@ -1,18 +1,19 @@
-version: '2.3'
+version: '2.4'
 
 networks:
 
   vpn_network:
     external:
-      name: vlan20                     # <--- network must already exist
+      name: vlan30                     # <--- network must already exist
 
 services:
 
   openvpn:
-    image: stlouisn/openvpn:latest
+    image: stlouisn/openvpn
     container_name: openvpn
     hostname: openvpn
     environment:
+      - LC_ALL=C.UTF-8
       - TZ=UTC
       - VPN_GATEWAY=123.123.123.123    # <--- vpn gateway
       - VPN_PORT=1234                  # <--- vpn port
@@ -20,7 +21,7 @@ services:
       - LAN_GATEWAY=123.123.123.123    # <--- router IP
     restart: always
     volumes:
-      - ./openvpn/config:/etc/openvpn:rw
+      - /docker/openvpn/config:/etc/openvpn:rw
     logging:
       driver: json-file
       options:
@@ -32,8 +33,8 @@ services:
       - /dev/net/tun:/dev/net/tun      # <--- tun device must already exist
     networks:
       vpn_network:
-        ipv4_address: 123.123.123.123  # <--- available IP on vlan20
-    dns: 123.123.123.123               # <--- router IP
+        ipv4_address: 123.123.123.123  # <--- available IP on vlan30
+    dns: 123.123.123.123               # <--- router IP or VPN DNS
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
@@ -41,8 +42,8 @@ services:
       timeout: 30s
       retries: 5
 
-  transmission:
-    image: linuxserver/transmission:latest
+  yourcontainer:
+    image: yourcontainer/yourcontainer
     network_mode: service:openvpn
     depends_on:
       openvpn:
