@@ -22,11 +22,6 @@ services:
     restart: always
     volumes:
       - /docker/openvpn/config:/etc/openvpn:rw
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
     cap_add:
       - NET_ADMIN
     devices:
