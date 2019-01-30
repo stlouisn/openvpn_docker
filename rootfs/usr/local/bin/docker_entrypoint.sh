@@ -1,4 +1,4 @@
-#!/bin/bash
+# ! /bin/bash
 
 #=========================================================================================
 
@@ -45,9 +45,7 @@ if [[ -z "$CONFIG_FILE" ]]; then
 fi
 
 # Fix user and group ownerships for '/etc/openvpn'
-if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "ro" ]]; then
-    echo -e "\nWarning: volume '/etc/openvpn/' is readonly." >&2
-else
+if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "rW" ]]; then
     chown -R root:root /etc/openvpn
     find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
 fi
