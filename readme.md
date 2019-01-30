@@ -16,7 +16,7 @@
 [![Docker Pulls][docker_pulls_logo]][docker_hub_url]
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-OpenVPN Docker is a secure VPN Gateway for other Docker Containers. It routes external traffic through a VPN while allowing local traffing to communicate via LAN. 
+Secure VPN Gateway for Docker Containers. It routes external traffic through a VPN while allowing local traffing to communicate via LAN. 
 
 ### Tags
 
