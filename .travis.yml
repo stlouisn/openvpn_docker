@@ -3,32 +3,30 @@ dist: trusty
 group: travis_latest
 sudo: required
 
+if: |
+  branch = master AND \
+  NOT commit_message =~ /readme.md/ AND \
+  NOT commit_message =~ /docker-compose.yml/
+
 addons:
   apt:
     packages:
       - docker-ce
 
-branches:
-  only:
-    - master
-
 env:
   global:
-    - BUILD_DATE="`date -u +%Y-%m-%dT%H:%M:%SZ`"
-    - BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
-    - DISTRIB_ID="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_ID | awk -F '=' {'print $2'}`"
-    - DISTRIB_RELEASE="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_RELEASE | awk -F '=' {'print $2'}`"
-    - DISTRIB_CODENAME="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'cat /etc/lsb-release') | grep DISTRIB_CODENAME | awk -F '=' {'print $2'}`"
+    - BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    - BUILD_NUMBER="${TRAVIS_BUILD_NUMBER}"
     - DOCKER_DESCRIPTION="secure vpn gateway"
     - DOCKER_MAINTAINER="stlouisn"
     - DOCKER_NAME="openvpn"
     - DOCKER_URL="https://openvpn.net/index.php/open-source/"
     - SCHEMA_VERSION="1.0"
-    - VCS_REF="`git rev-parse --short HEAD`"
-    - VCS_URL="`git remote get-url origin | head -c-5`"
+    - VCS_REF="(git rev-parse --short HEAD)"
+    - VCS_URL="(git remote get-url origin | head -c-5)"
   matrix:
     - DOCKER_TAG="latest"
-      DOCKER_VERSION="`(docker pull stlouisn/ubuntu:rolling && docker run -it --rm stlouisn/ubuntu:rolling /bin/bash -c 'apt update -qqq && apt-cache madison openvpn') | grep openvpn | awk -F '|' {'print $2'} | awk -F '-' {'print $1'} | sort | tail -n 1 | tr -d ' '`"
+      DOCKER_VERSION="$(curl -sL https://packages.ubuntu.com/`curl -sL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`/openvpn | grep Package: | awk -F '(' {'print $2'} | cut -d + -f 1 | cut -d - -f 1)"
 
 before_install:
   - docker version
@@ -38,21 +36,21 @@ install:
 
 before_script:
   - sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' Dockerfile
-  - chmod 0544 rootfs/usr/local/bin/*.sh
+  - chmod 0544 rootfs/usr/local/bin/docker_entrypoint.sh
 
 script:
   - >
     docker build
-    --label org.label-schema.build-date="$BUILD_DATE"
-    --label org.label-schema.build-number="$BUILD_NUMBER"
-    --label org.label-schema.description="$DOCKER_DESCRIPTION"
-    --label org.label-schema.maintainer="$DOCKER_MAINTAINER"
-    --label org.label-schema.name="$DOCKER_NAME"
-    --label org.label-schema.url="$DOCKER_URL"
-    --label org.label-schema.version="$DOCKER_VERSION"
-    --label org.label-schema.schema-version="$SCHEMA_VERSION"
-    --label org.label-schema.vcs-ref="$VCS_REF"
-    --label org.label-schema.vcs-url="$VCS_URL"
+    --label org.label-schema.build-date="${BUILD_DATE}"
+    --label org.label-schema.build-number="${BUILD_NUMBER}"
+    --label org.label-schema.description="${DOCKER_DESCRIPTION}"
+    --label org.label-schema.maintainer="${DOCKER_MAINTAINER}"
+    --label org.label-schema.name="${DOCKER_NAME}"
+    --label org.label-schema.url="${DOCKER_URL}"
+    --label org.label-schema.version="${DOCKER_VERSION}"
+    --label org.label-schema.schema-version="${SCHEMA_VERSION}"
+    --label org.label-schema.vcs-ref="${VCS_REF}"
+    --label org.label-schema.vcs-url="${VCS_URL}"
     --tag ${DOCKER_USERNAME}/${DOCKER_NAME}:${DOCKER_TAG}
     --pull .
 
