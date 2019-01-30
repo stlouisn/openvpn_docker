@@ -32,7 +32,6 @@ OpenVPN Docker is a secure VPN Gateway. It routes external traffic through a VPN
 Create TUN Device on Host System.
 
 ```bash
-# Create TUN Device on Host System
 mkdir -p /dev/net
 mknod /dev/net/tun c 10 200
 chmod 666 /dev/net/tun
