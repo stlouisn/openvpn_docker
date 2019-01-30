@@ -49,6 +49,7 @@ RUN \
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
+    apt-get clean -y && \
     apt-get autoclean -y && \
 
     # Cleanup temporary folders
@@ -56,8 +57,7 @@ RUN \
         /root/.cache \
         /root/.wget-hsts \
         /tmp/* \
-        /var/lib/apt/lists/* \
-        /var/log/*
+        /var/lib/apt/lists/*
 
 VOLUME /etc/openvpn
 
