@@ -14,8 +14,9 @@
 [![Build Status][travis_logo]][travis_url]
 [![Docker Stars][docker_stars_logo]][docker_hub_url]
 [![Docker Pulls][docker_pulls_logo]][docker_hub_url]
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-OpenVPN Docker is a secure VPN Gateway.
+OpenVPN Docker is a secure VPN Gateway. It routes external traffic through a VPN while allowing local traffing to communicate via LAN. 
 
 ### Tags
 
@@ -42,7 +43,7 @@ docker network create \
   --subnet=192.168.30.0/24 \
   --gateway=192.168.30.1 \
   --opt parent=eth0.30 \
-  vlan30
+  vlan
 
 # Create OpenVPN Configuration Directory
 mkdir -p /docker/openvpn/config
