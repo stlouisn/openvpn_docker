@@ -4,7 +4,7 @@ networks:
 
   vpn_network:
     external:
-      name: vlan30                     # <--- network must already exist
+      name: vlan                       # <--- network must already exist
 
 services:
 
@@ -21,14 +21,14 @@ services:
       - LAN_GATEWAY=123.123.123.123    # <--- router IP
     restart: always
     volumes:
-      - /docker/openvpn/config:/etc/openvpn:rw
+      - /docker/openvpn/config:/etc/openvpn
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun      # <--- tun device must already exist
     networks:
       vpn_network:
-        ipv4_address: 123.123.123.123  # <--- available IP on vlan30
+        ipv4_address: 123.123.123.123  # <--- available IP on vlan
     dns: 123.123.123.123               # <--- router IP or VPN DNS
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
