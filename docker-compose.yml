@@ -15,10 +15,10 @@ services:
     environment:
       - LC_ALL=C.UTF-8
       - TZ=UTC
-      - VPN_GATEWAY=123.123.123.123    # <--- vpn gateway
-      - VPN_PORT=1234                  # <--- vpn port
+      - VPN_GATEWAY=0.0.0.0            # <--- vpn gateway
+      - VPN_PORT=0                     # <--- vpn port
       - VPN_PROTOCOL=udp               # <--- tcp/udp
-      - LAN_GATEWAY=123.123.123.123    # <--- router IP
+      - LAN_GATEWAY=0.0.0.0            # <--- router IP
     restart: always
     volumes:
       - /docker/openvpn/config:/etc/openvpn
@@ -28,8 +28,8 @@ services:
       - /dev/net/tun:/dev/net/tun      # <--- tun device must already exist
     networks:
       vpn_network:
-        ipv4_address: 123.123.123.123  # <--- available IP on vlan
-    dns: 123.123.123.123               # <--- router IP or VPN DNS
+        ipv4_address: 0.0.0.0          # <--- available IP on vlan
+    dns: 0.0.0.0                       # <--- router IP or VPN DNS
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
@@ -37,8 +37,17 @@ services:
       timeout: 30s
       retries: 5
 
-  yourcontainer:
-    image: yourcontainer/yourcontainer
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    hostname: portainer
+    environment:
+      - LC_ALL=C.UTF-8
+      - TZ=America/Halifax
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /docker/portainer/data:/data
     network_mode: service:openvpn
     depends_on:
       openvpn:
