@@ -27,29 +27,6 @@ Secure VPN Gateway routes all external traffic from network attached Docker Cont
 
 [![Feature Requests][feathub_data]][feathub_url]
 
-### Instructions
-
-```bash
-# Create TUN Device on Host System
-mkdir -p /dev/net
-mknod /dev/net/tun c 10 200
-chmod 666 /dev/net/tun
-
-# Create OpenVPN Configuration Directory
-mkdir -p /docker/openvpn/config
-
-# Copy OpenVPN Configuration File
-cp config.ovpn /docker/openvpn/config/.
-
-# Create Docker Network
-docker network create \
-  --driver macvlan \
-  --subnet=0.0.0.0/24 \
-  --gateway=0.0.0.0 \
-  --opt parent=eth0.0 \
-  vlan
-```
-
 ### Support
 
 [![Slack Channel](https://img.shields.io/badge/-message-no.svg?colorA=a7a7a7&colorB=3eb991&logo=slack&logoWidth=14)][slack_url]
