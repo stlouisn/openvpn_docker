@@ -20,14 +20,17 @@ services:
       - /docker/openvpn/config:/etc/openvpn
     cap_add:
       - NET_ADMIN
-    networks:
-      - vpn
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
       interval: 60s
       timeout: 30s
       retries: 5
+    networks:
+      - vpn
+    dns: 8.8.8.8
 
 # EXAMPLE CONTAINER BELOW
 
