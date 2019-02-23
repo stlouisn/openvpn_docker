@@ -32,7 +32,7 @@ if [[ -z "$CONFIG_FILE" ]]; then
 fi
 
 # Fix user and group ownerships for '/etc/openvpn'
-if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "rW" ]]; then
+if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "rw" ]]; then
     chown -R root:root /etc/openvpn
     find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
 fi
