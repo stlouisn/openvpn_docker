@@ -26,7 +26,7 @@ env:
     - VCS_URL="$(git remote get-url origin | head -c-5)"
   matrix:
     - DOCKER_TAG="latest"
-      DOCKER_VERSION="$(curl -sL https://packages.ubuntu.com/`curl -sL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`/openvpn | grep Package\: | awk -F '(' {'print $2'} | cut -d + -f 1 | cut -d - -f 1)"
+      DOCKER_VERSION="$(curl -sL https://packages.ubuntu.com/`curl -sL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling`/openvpn | grep Package: | awk -F '(' {'print $2'} | cut -d + -f 1 | cut -d - -f 1))"
 
 before_install:
   - docker version
