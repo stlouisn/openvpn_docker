@@ -44,9 +44,9 @@ RUN \
     rm -rf /etc/openvpn && \
 
     # Create TUN/TAP device
-    mkdir -p /dev/net
-    mknod /dev/net/tun c 10 200
-    chmod 666 /dev/net/tun
+    mkdir -p /dev/net && \
+    mknod /dev/net/tun c 10 200 && \
+    chmod 666 /dev/net/tun && \
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
