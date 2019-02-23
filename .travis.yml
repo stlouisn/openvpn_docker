@@ -27,7 +27,7 @@ env:
   matrix:
     - DOCKER_TAG="latest"
       UBUNTU_VERSION="$(curl -sL https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
-      DOCKER_VERSION="$(curl -sL https://packages.ubuntu.com/${UBUNTU_VERSION}/openvpn | grep Package | awk -F '(' {'print $2'} | cut -d + -f 1 | cut -d - -f 1)"
+      DOCKER_VERSION="$(curl -sL https://packages.ubuntu.com/${UBUNTU_VERSION}/openvpn | grep 'Package:' | awk -F '(' {'print $2'} | cut -d + -f 1 | cut -d - -f 1)"
 
 before_install:
   - docker version
