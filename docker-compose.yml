@@ -4,7 +4,7 @@ networks:
 
   vpn_network:
     external:
-      name: vlan                       # <--- network must already exist
+      name: vpn
 
 services:
 
@@ -21,7 +21,7 @@ services:
     cap_add:
       - NET_ADMIN
     networks:
-      - vlan
+      - vpn
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
