@@ -2,7 +2,7 @@
 
 #=========================================================================================
 
-# Create TUN/TAP device
+# Create TUN device
 if [[ ! -d /dev/net ]]; then
     mkdir -p /dev/net
 fi
@@ -36,6 +36,17 @@ if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "rW
     chown -R root:root /etc/openvpn
     find /etc/openvpn/. -type f -name *.key -exec chmod 0600 {} \;
 fi
+
+#=========================================================================================	
+
+# Obtain VPN_GATEWAY
+export VPN_GATEWAY="$(cat /etc/openvpn/$CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $2'})"
+
+# Obtain VPN_PORT
+export VPN_PORT="$(cat /etc/openvpn/$CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $3'})"
+
+# Obtain VPN_PORT
+export VPN_PROTOCOL="$(cat /etc/openvpn/$CONFIG_FILE | grep proto | head -n 1 | awk -F ' ' {'print $2'})"
 
 #=========================================================================================	
 
