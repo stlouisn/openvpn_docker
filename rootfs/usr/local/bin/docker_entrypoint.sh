@@ -1,31 +1,5 @@
 #!/bin/bash
 
-#=========================================================================================	
-
-# Make sure environment VPN_GATEWAY is set	
-if [[ -z "$VPN_GATEWAY" ]]; then	
-    echo -e "\nError: Environment 'VPN_GATEWAY' must be defined.\n" >&2	
-    exit 1	
-fi	
-
-# Make sure environment VPN_PROTOCOL is set	
-if [[ -z "$VPN_PROTOCOL" ]]; then	
-    echo -e "\nError: Environment 'VPN_PROTOCOL' must be defined.\n" >&2	
-    exit 1	
-fi	
-
-# Make sure environment VPN_PORT is set	
-if [[ -z "$VPN_PORT" ]]; then	
-    echo -e "\nError: Environment 'VPN_PORT' must be defined.\n" >&2	
-    exit 1	
-fi	
-
-# Make sure environment LAN_GATEWAY is set	
-if [[ -z "$LAN_GATEWAY" ]]; then	
-    echo -e "\nError: Environment 'LAN_GATEWAY' must be defined.\n" >&2	
-    exit 1	
-fi
-
 #=========================================================================================
 
 # Make sure volume '/etc/openvpn' is mounted	
@@ -53,35 +27,6 @@ if [[ `mount | grep '/etc/openvpn' | awk -F '(' {'print $2'} | cut -c -2` == "rW
 fi
 
 #=========================================================================================	
-
-# Flush firewall rules	
-iptables -F	
-
-# Set default policies	
-iptables --policy FORWARD DROP	
-iptables --policy OUTPUT  DROP	
-iptables --policy INPUT   DROP 	
-
-# Allow VPN connection on ETH0	
-iptables -A OUTPUT -o eth0 -d $VPN_GATEWAY -p $VPN_PROTOCOL --dport $VPN_PORT -j ACCEPT	
-iptables -A INPUT  -i eth0 -s $VPN_GATEWAY -p $VPN_PROTOCOL --sport $VPN_PORT -j ACCEPT	
-
-# Allow ALL on TUN0	
-iptables -A OUTPUT -o tun0 -d 0.0.0.0/0 -j ACCEPT	
-iptables -A INPUT  -i tun0 -s 0.0.0.0/0 -j ACCEPT	
-
-# Allow PRIVATE NETWORKS on ETH0	
-iptables -A OUTPUT -o eth0 -d 192.168.0.0/16 -j ACCEPT	
-iptables -A INPUT  -i eth0 -s 192.168.0.0/16 -j ACCEPT	
-
-# Allow ALL on LOOPBACK	
-iptables -A OUTPUT -o lo -j ACCEPT	
-iptables -A INPUT  -i lo -j ACCEPT	
-
-# Route LOCAL NETWORK traffic to ETH0	
-ip route add 192.168.0.0/16 via $LAN_GATEWAY dev eth0
-
-#=========================================================================================
 
 # Start openvpn in console mode
 exec \
