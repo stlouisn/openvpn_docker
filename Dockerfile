@@ -36,16 +36,17 @@ RUN \
         inetutils-tools && \
     update-alternatives --install /usr/bin/ifconfig ifconfig /usr/bin/inetutils-ifconfig 1 && \
 
-    # Install process utilities
-    apt-get install -y --no-install-recommends \
-        psmisc && \
-
     # Install openvpn
     apt-get install -y --no-install-recommends \
         openvpn && \
 
     # Remove openvpn default configuration
     rm -rf /etc/openvpn && \
+
+    # Create TUN/TAP device
+    mkdir -p /dev/net
+    mknod /dev/net/tun c 10 200
+    chmod 666 /dev/net/tun
 
     # Clean apt-cache
     apt-get autoremove -y --purge && \
