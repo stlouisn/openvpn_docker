@@ -2,6 +2,17 @@
 
 #=========================================================================================
 
+# Create TUN/TAP device
+if [[ -d /dev/net ]]; then
+    mkdir -p /dev/net
+fi
+if [[ -c /dev/net/tun ]]; then
+    mknod /dev/net/tun c 10 200
+    chmod 666 /dev/net/tun
+fi
+    
+#=========================================================================================
+
 # Make sure volume '/etc/openvpn' is mounted	
 if [[ ! -d /etc/openvpn ]]; then	
     echo -e "\nError: Volume '/etc/openvpn' not mounted.\n" >&2	
