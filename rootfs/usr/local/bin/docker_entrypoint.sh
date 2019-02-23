@@ -48,6 +48,33 @@ export VPN_PORT="$(cat $CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'pri
 # Obtain VPN_PORT
 export VPN_PROTOCOL="$(cat $CONFIG_FILE | grep proto | head -n 1 | awk -F ' ' {'print $2'})"
 
+# Flush firewall rules		
+iptables -F		
+
+ # Set default policies		
+iptables --policy FORWARD DROP		
+iptables --policy OUTPUT  DROP		
+iptables --policy INPUT   DROP 		
+
+ # Allow VPN connection on ETH0		
+iptables -A OUTPUT -o eth0 -d $VPN_GATEWAY -p $VPN_PROTOCOL --dport $VPN_PORT -j ACCEPT		
+iptables -A INPUT  -i eth0 -s $VPN_GATEWAY -p $VPN_PROTOCOL --sport $VPN_PORT -j ACCEPT		
+
+ # Allow ALL on TUN0		
+iptables -A OUTPUT -o tun0 -d 0.0.0.0/0 -j ACCEPT		
+iptables -A INPUT  -i tun0 -s 0.0.0.0/0 -j ACCEPT		
+
+ # Allow PRIVATE NETWORKS on ETH0		
+iptables -A OUTPUT -o eth0 -d 172.0.0.0/8 -j ACCEPT		
+iptables -A INPUT  -i eth0 -s 172.0.0.0/8 -j ACCEPT		
+
+ # Allow ALL on LOOPBACK		
+iptables -A OUTPUT -o lo -j ACCEPT		
+iptables -A INPUT  -i lo -j ACCEPT		
+
+ # Route LOCAL NETWORK traffic to ETH0		
+ip route add 172.0.0.0/8 via $LAN_GATEWAY dev eth0
+
 #=========================================================================================	
 
 # Start openvpn in console mode
