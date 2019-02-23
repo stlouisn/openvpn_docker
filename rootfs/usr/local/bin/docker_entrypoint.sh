@@ -3,10 +3,10 @@
 #=========================================================================================
 
 # Create TUN/TAP device
-if [[ -d /dev/net ]]; then
+if [[ ! -d /dev/net ]]; then
     mkdir -p /dev/net
 fi
-if [[ -c /dev/net/tun ]]; then
+if [[ ! -c /dev/net/tun ]]; then
     mknod /dev/net/tun c 10 200
     chmod 666 /dev/net/tun
 fi
