@@ -40,13 +40,13 @@ fi
 #=========================================================================================	
 
 # Obtain VPN_GATEWAY
-export VPN_GATEWAY="$(cat /etc/openvpn/$CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $2'})"
+export VPN_GATEWAY="$(cat $CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $2'})"
 
 # Obtain VPN_PORT
-export VPN_PORT="$(cat /etc/openvpn/$CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $3'})"
+export VPN_PORT="$(cat $CONFIG_FILE | grep remote | head -n 1 | awk -F ' ' {'print $3'})"
 
 # Obtain VPN_PORT
-export VPN_PROTOCOL="$(cat /etc/openvpn/$CONFIG_FILE | grep proto | head -n 1 | awk -F ' ' {'print $2'})"
+export VPN_PROTOCOL="$(cat $CONFIG_FILE | grep proto | head -n 1 | awk -F ' ' {'print $2'})"
 
 #=========================================================================================	
 
