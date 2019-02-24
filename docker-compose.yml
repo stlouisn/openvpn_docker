@@ -4,7 +4,7 @@ networks:
 
   vpn_network:
     external:
-      name: vpn
+      name: vpn_network
 
 services:
 
@@ -29,7 +29,7 @@ services:
       timeout: 30s
       retries: 5
     networks:
-      - vpn
+      - vpn_network
     dns: 8.8.8.8
 
 # EXAMPLE CONTAINER BELOW
