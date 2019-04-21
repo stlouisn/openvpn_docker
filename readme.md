@@ -20,8 +20,8 @@ Secure VPN Gateway routes all external traffic from network attached Docker Cont
 
 ### Tags
 
-[![Version](https://images.microbadger.com/badges/version/stlouisn/openvpn.svg)][microbadger_url]
-[![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn.svg)][microbadger_url]
+[![Version](https://images.microbadger.com/badges/version/stlouisn/openvpn:latest.svg)][microbadger_url]
+[![Layers](https://images.microbadger.com/badges/image/stlouisn/openvpn:latest.svg)][microbadger_url]
 
 ### Feature Requests
 
