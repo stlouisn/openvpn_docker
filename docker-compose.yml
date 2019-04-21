@@ -2,14 +2,14 @@ version: '2.4'
 
 networks:
 
-  vpn_network:
+  vpn_gateway:
     external:
-      name: vpn_network
+    name: vpn_network
 
 services:
 
   openvpn:
-    image: stlouisn/openvpn
+    image: stlouisn/openvpn:latest
     container_name: openvpn
     hostname: openvpn
     environment:
@@ -22,6 +22,13 @@ services:
       - NET_ADMIN
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
+    mem_limit: 500M
+    memswap_limit: 500M
+    logging:
+      driver: json-file
+        options:
+          max-size: "10M"
+          max-file: "3"
     healthcheck:
       test: "ping -c 1 -W 3 -q google.com || (killall -s SIGUSR1 openvpn; exit 1)"
       start_period: 30s
@@ -29,13 +36,11 @@ services:
       timeout: 30s
       retries: 5
     networks:
-      - vpn_network
+      - vpn_gateway
     dns: 8.8.8.8
 
-# EXAMPLE CONTAINER BELOW
-
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:latest
     container_name: portainer
     hostname: portainer
     environment:
@@ -45,6 +50,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /docker/portainer/data:/data
+    mem_limit: 50M
+    memswap_limit: 50M
+    logging:
+      driver: json-file
+        options:
+          max-size: "10M"
+          max-file: "3"
+    #healthcheck:
     network_mode: service:openvpn
     depends_on:
       openvpn:
