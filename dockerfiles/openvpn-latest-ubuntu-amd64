@@ -1,4 +1,4 @@
-FROM stlouisn/ubuntu:rolling
+FROM stlouisn/ubuntu:rolling-amd64
 
 COPY rootfs /
 
