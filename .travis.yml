@@ -25,7 +25,7 @@ env:
     - VCS_REF="$(git rev-parse --short HEAD)"
     - VCS_URL="$(git remote get-url origin | head -c-5)"
     - DOCKER_TAG="latest"
-    - DOCKER_VERSION="$(curl -ksSL https://packages.ubuntu.com/${OS_CODENAME}/openvpn | grep 'Package:' | awk -F '(' {'print $2'} | cut -d \- -f 1)"
+    - DOCKER_VERSION="$(sudo bash travis/get_version.sh)"
 
 before_install:
   - sudo /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
