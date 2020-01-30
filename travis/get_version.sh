@@ -3,4 +3,4 @@
 set -euo pipefail
 
 # Output openvpn version from ubuntu:rolling repository
-echo "$(curl -fsSL https://packages.ubuntu.com/${OS_CODENAME}/openvpn | grep 'Package:' | awk -F '(' {'print $2'} | cut -d \- -f 1)"
+echo "$(curl -fsSL --retry 5 --retry-delay 2 https://packages.ubuntu.com/${OS_CODENAME}/openvpn | grep 'Package:' | awk -F '(' {'print $2'} | cut -d \- -f 1)"
