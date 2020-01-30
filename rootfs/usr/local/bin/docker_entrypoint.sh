@@ -70,6 +70,9 @@ iptables -A INPUT  -i eth0 -s 172.16.0.0/12 -j ACCEPT
 iptables -A OUTPUT -o eth0 -d 192.168.0.0/16 -j ACCEPT
 iptables -A INPUT  -i eth0 -s 192.168.0.0/16 -j ACCEPT
 
+# Route PRIVATE NETWORKS on ETH0
+ip route add 192.168.0.0/16 dev eth0
+
 # Allow ALL on LOOPBACK
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A INPUT  -i lo -j ACCEPT
