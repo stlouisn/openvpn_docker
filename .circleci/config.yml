@@ -20,7 +20,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.11
       - run:
-          name: Labelling dockerfile
+          name: Label dockerfile
           command: |
             export C_VERSION="$(bash .circleci/get_version.sh)"
             bash .circleci/docker_labels.sh
@@ -29,6 +29,15 @@ jobs:
           command: |
             sed -i -e '/^$/d' -e 's/^[ \t]*//' -e '/^#/d' dockerfile
             cat dockerfile
+      - run:
+          name: Preparing root filesystem
+          command: bash .circleci/rootfs_chmod.sh
+      - run:
+          name: Configure Docker Hub
+          command: |
+            [ -z "$DOCKER_LOGIN" ] && exit 1
+            [ -z "$DOCKER_PASSWORD" ] && exit 1
+            echo "$DOCKER_PASSWORD" | docker login --username=$DOCKER_LOGIN --password-stdin
       - run:
           name: Configure Docker Buildx
           command: |
@@ -43,12 +52,6 @@ jobs:
             docker context create buildcontext
             echo
             docker buildx create buildcontext --use --platform $BUILD_PLATFORMS
-      - run:
-          name: Configure Docker Hub
-          command: |
-            [ -z "$DOCKER_LOGIN" ] && exit 1
-            [ -z "$DOCKER_PASSWORD" ] && exit 1
-            echo "$DOCKER_PASSWORD" | docker login --username=$DOCKER_LOGIN --password-stdin
       - run:
           name: Build and push container
           no_output_timeout: 20m
