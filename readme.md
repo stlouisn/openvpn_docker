@@ -33,6 +33,7 @@ OpenVPn Docker is an image meant to be used within a Docker-Compose V2 configura
 - iptables to restrict traffic solely through VPN tunnel
 
 ```docker-compose
+curl -sSL -o docker-compose.yml https://raw.githubusercontent.com/stlouisn/openvpn_docker/main/docker-compose.yml
 docker-compose pull
 docker-compose up --detach
 ```
