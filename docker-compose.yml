@@ -9,7 +9,6 @@ services:
         environment:
             - LC_ALL=C.UTF-8
             - TZ=America/Halifax
-            - DNS=8.8.8.8
         restart: unless-stopped
         volumes:
             - /docker/openvpn/config:/config
@@ -30,7 +29,7 @@ services:
             interval: 60s
             timeout: 30s
             retries: 5
-        dns: 8.8.8.8
+        dns: 8.8.8.8 # replace with VPN's DNS
 
     transmission:
         image: stlouisn/transmission:latest
