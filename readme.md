@@ -21,16 +21,11 @@
 [![Docker Pulls][docker_pulls_logo]][docker_pulls_url]
 [![License][license_logo]][license_url]
 
-OpenVPn Docker is an image meant to be used within a Docker-Compose V2 configuration utilizing
+OpenVPN Docker is a secure vpn gateway that is configured for use within a Docker-Compose V2 environment and allows for other containers to communicate through its VPN tunnel.
 
- minimal base image that is configured for use within Docker containers and offers:
-
-- Modifications for Docker-friendliness.
-- Administration tools that are especially useful in the context of Docker.
-- Mechanism for easily running processes as non-root.
-
-- detect .ovpn configuration
-- iptables to restrict traffic solely through VPN tunnel
+- Detects configuration file within /config volume.
+- Establishes iptables to force traffic through VPN tunnel.
+- Monitors health of VPN connection and resets if necessary.
 
 ```docker
 curl -o docker-compose.yml -sSL https://raw.githubusercontent.com/stlouisn/openvpn_docker/main/docker-compose.yml
