@@ -29,8 +29,7 @@ OpenVPN Docker is a secure vpn gateway that is configured for use within a Docke
 
 ```docker
 curl -o docker-compose.yml -sSL https://raw.githubusercontent.com/stlouisn/openvpn_docker/main/docker-compose.yml
-docker-compose pull
-docker-compose up --detach
+docker-compose up --pull --detach
 ```
 
 #### Links
