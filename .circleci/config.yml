@@ -4,10 +4,10 @@ jobs:
   build-multiarch-container:
     resource_class: small
     environment:
-      C_DESCRIPTION: "openvpn base image"          # <-- variable
-      C_MAINTAINER: "stlouisn"                     # <-- variable
-      C_NAME: "openvpn"                            # <-- variable
-      C_TAG: "latest"                              # <-- variable
+      C_DESCRIPTION: "openvpn secure gateway"   # <-- variable
+      C_MAINTAINER: "stlouisn"                  # <-- variable
+      C_NAME: "openvpn"                         # <-- variable
+      C_TAG: "latest"                           # <-- variable
       BUILD_PLATFORMS: "linux/arm64,linux/arm/v7"
       DOCKER_LOGIN: "stlouisn"
     docker:
@@ -65,4 +65,4 @@ workflows:
   build-container:
     jobs:
       - build-multiarch-container:
-          name: build-docker-openvpn               # <-- variable
+          name: build-docker-openvpn   # <-- variable
