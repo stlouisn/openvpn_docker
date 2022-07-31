@@ -1,11 +1,10 @@
 FROM stlouisn/ubuntu:latest
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 COPY rootfs /
 
 RUN \
-
-    # Non-interactive frontend
-    export DEBIAN_FRONTEND=noninteractive && \
 
     # Update apt-cache
     apt-get update && \
