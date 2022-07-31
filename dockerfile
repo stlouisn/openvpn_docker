@@ -36,7 +36,14 @@ RUN \
         /root/.cache \
         /root/.wget-hsts \
         /tmp/* \
-        /var/lib/apt/lists/*
+        /usr/local/man \
+        /usr/local/share/man \
+        /usr/share/doc \
+        /usr/share/doc-base \
+        /usr/share/man \
+        /var/cache \
+        /var/lib/apt \
+        /var/log/*
 
 VOLUME /config
 
