@@ -13,12 +13,11 @@ RUN \
     apt-get install -y --no-install-recommends \
         iptables && \
 
-    # Install inetutils
+    # Install iptools
     apt-get install -y --no-install-recommends \
-        inetutils-ping \
-        inetutils-traceroute \
-        inetutils-tools && \
-    update-alternatives --install /usr/bin/ifconfig ifconfig /usr/bin/inetutils-ifconfig 1 && \
+        iproute2 \
+        iputils-ping \
+        iputils-tracepath && \
 
     # Install openvpn
     apt-get install -y --no-install-recommends \
